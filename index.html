@@ -160,7 +160,7 @@
           const pr = player.play();
           if (pr && pr.catch) pr.catch(end);
         } catch (e) { end(); }
-        setTimeout(end, 4000);
+        setTimeout(end, 2500);
       }
       function next() {
         repeatCount = 0;
@@ -175,15 +175,14 @@
         const text = stages[stageIndex][itemIndex].text;
         repeatCount += 1;
         paint();
+        if (repeatCount < 2) { say(text); return; }
         busy = true;
         prompt.classList.add('busy');
-        say(text, () => {
-          setTimeout(() => {
-            busy = false;
-            prompt.classList.remove('busy');
-            if (repeatCount >= 2) next();
-          }, repeatCount >= 2 ? 900 : 250);
-        });
+        say(text, () => setTimeout(() => {
+          busy = false;
+          prompt.classList.remove('busy');
+          next();
+        }, 600));
       });
 
       paint();
